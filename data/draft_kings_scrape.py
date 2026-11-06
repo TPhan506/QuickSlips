@@ -9,12 +9,7 @@ NBA_URL = "https://sportsbook.draftkings.com/leagues/basketball/nba"
 NFL_URL = "https://sportsbook.draftkings.com/leagues/football/nfl"
 
 
-# --------------------------------------------------
 # PROP BUTTONS TO COLLECT
-#
-# If you want another prop later,
-# add its DraftKings button name here.
-# --------------------------------------------------
 
 MLB_PROPS = [
     "Home Runs",
@@ -43,9 +38,9 @@ NFL_PROPS = [
 ]
 
 
-# --------------------------------------------------
-# GENERIC DRAFTKINGS SCRAPER
-# --------------------------------------------------
+
+# DRAFTKINGS SCRAPER
+
 
 def scrape_draftkings(
     url,
@@ -65,10 +60,10 @@ def scrape_draftkings(
 
         page = browser.new_page()
 
-        # ---------------------------------
+   
         # WATCH ALL DRAFTKINGS JSON
         # RESPONSES
-        # ---------------------------------
+       
 
         def handle_response(response):
 
@@ -107,9 +102,7 @@ def scrape_draftkings(
             handle_response
         )
 
-        # ---------------------------------
         # LOAD SPORT PAGE
-        # ---------------------------------
 
         page.goto(
             url,
@@ -119,13 +112,10 @@ def scrape_draftkings(
 
         page.wait_for_timeout(3000)
 
-        # ---------------------------------
         # OPEN CATEGORY
-        #
         # MLB -> Batter
         # NBA -> Player Props
         # NFL -> Player Props
-        # ---------------------------------
 
         if first_category:
 
@@ -160,9 +150,7 @@ def scrape_draftkings(
                     first_category
                 )
 
-        # ---------------------------------
         # CLICK THROUGH PROP MARKETS
-        # ---------------------------------
 
         for button_name in buttons:
 
@@ -194,7 +182,6 @@ def scrape_draftkings(
             try:
 
                 # Wait for the actual market
-                # response caused by this click
                 with page.expect_response(
                     lambda response:
                         "/markets?" in response.url
@@ -215,8 +202,6 @@ def scrape_draftkings(
 
             except Exception:
 
-                # Sometimes DraftKings may already
-                # have the data loaded.
                 print(
                     "No new market response for:",
                     button_name
@@ -224,9 +209,7 @@ def scrape_draftkings(
 
         browser.close()
 
-    # ---------------------------------
     # PACKAGE RAW DATA
-    # ---------------------------------
 
     result = {
 
@@ -251,9 +234,7 @@ def scrape_draftkings(
     return result
 
 
-# --------------------------------------------------
 # MLB
-# --------------------------------------------------
 
 def scrape_draftkings_mlb(
     headless=False
@@ -268,9 +249,7 @@ def scrape_draftkings_mlb(
     )
 
 
-# --------------------------------------------------
 # NBA
-# --------------------------------------------------
 
 def scrape_draftkings_nba(
     headless=False
@@ -285,9 +264,7 @@ def scrape_draftkings_nba(
     )
 
 
-# --------------------------------------------------
 # NFL
-# --------------------------------------------------
 
 def scrape_draftkings_nfl(
     headless=False
@@ -302,9 +279,7 @@ def scrape_draftkings_nfl(
     )
 
 
-# --------------------------------------------------
 # SAVE RAW JSON
-# --------------------------------------------------
 
 def save_raw_data(
     data,

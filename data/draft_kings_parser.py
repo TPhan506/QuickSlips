@@ -1,6 +1,4 @@
-# --------------------------------------------------
-# PROP TYPES WE CURRENTLY UNDERSTAND
-# --------------------------------------------------
+# PROP TYPES 
 
 PROP_TYPES = [
 
@@ -31,9 +29,7 @@ PROP_TYPES = [
 ]
 
 
-# --------------------------------------------------
 # CLEAN ODDS
-# --------------------------------------------------
 
 def normalize_odds(odds):
 
@@ -52,25 +48,12 @@ def normalize_odds(odds):
     return int(odds)
 
 
-# --------------------------------------------------
 # SPLIT PLAYER FROM MARKET
-#
-# Example:
-#
-# "Pierre Strong Jr. Rush + Rec Yards"
-#
-# becomes
-#
-# player = "Pierre Strong Jr."
-# market = "Rush + Rec Yards"
-# --------------------------------------------------
 
 def find_prop_type(
     market_name
 ):
 
-    # Check longer names first
-    # so partial matches don't win.
     prop_types = sorted(
         PROP_TYPES,
         key=len,
@@ -99,9 +82,7 @@ def find_prop_type(
     return None, None
 
 
-# --------------------------------------------------
 # PARSE DRAFTKINGS JSON
-# --------------------------------------------------
 
 def parse_draftkings(
     data,
@@ -139,15 +120,11 @@ def parse_draftkings(
             )
         )
 
-        # Not one of the props we
-        # currently care about.
+        
         if prop_type is None:
             continue
 
-        # ---------------------------------
-        # FIND SELECTIONS BELONGING TO
-        # THIS MARKET
-        # ---------------------------------
+      
 
         market_selections = []
 
@@ -162,10 +139,7 @@ def parse_draftkings(
                     selection
                 )
 
-        # ---------------------------------
-        # CHECK WHETHER DRAFTKINGS MARKED
-        # A MAIN LINE
-        # ---------------------------------
+      
 
         has_main_line = any(
 
@@ -179,14 +153,11 @@ def parse_draftkings(
             in market_selections
         )
 
-        # ---------------------------------
         # PROCESS SELECTIONS
-        # ---------------------------------
 
         for selection in market_selections:
 
-            # If DraftKings gives us a
-            # MainPointLine, ignore alt lines.
+      
             if (
                 main_lines_only
                 and has_main_line
@@ -228,12 +199,6 @@ def parse_draftkings(
                 )
             )
 
-            # ---------------------------------
-            # 1+, 2+, 3+ MARKETS
-            #
-            # 1+ = Over 0.5
-            # 2+ = Over 1.5
-            # ---------------------------------
 
             if selection_text.endswith("+"):
 
@@ -266,9 +231,7 @@ def parse_draftkings(
                         selection_text
                     )
 
-            # ---------------------------------
             # NORMAL OVER / UNDER MARKET
-            # ---------------------------------
 
             else:
 
